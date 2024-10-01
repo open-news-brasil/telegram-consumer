@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "telegram-lambda"
+version = "0.1.0"
+description = ""
+authors = ["João Paulo Carvalho <jjpaulo2@protonmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+aws-lambda-powertools = {extras = ["parser"], version = "^3.0.0"}
+pyrogram = "^2.0.106"
+tgcrypto = "^1.2.5"
+emoji = "^2.13.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
