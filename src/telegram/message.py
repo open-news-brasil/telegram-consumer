@@ -1,5 +1,5 @@
 from emoji import emojize
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 
 from src.settings import (
     TELEGRAM_MAX_ALBUM_QUANTITY,
@@ -14,6 +14,10 @@ class TelegramMessage:
     def __init__(self, message: Message):
         self.message = message
 
+    @property
+    def _album_images(self) -> list[str]:
+        return self.message.images[1 : TELEGRAM_MAX_ALBUM_QUANTITY + 1 : -1]
+    
     @property
     def _emoji(self) -> str:
         if self.message.youtube:
@@ -55,8 +59,12 @@ class TelegramMessage:
         return [InlineKeyboardButton(text=text, url=link)]
 
     @property
-    def album(self) -> list[str]:
-        return self.message.images[1 : TELEGRAM_MAX_ALBUM_QUANTITY + 1]
+    def chat_id(self) -> str:
+        return self.message.destiny
+
+    @property
+    def album(self) -> list[InputMediaPhoto]:
+        return [InputMediaPhoto(img) for img in self._album_images]
 
     @property
     def image(self) -> str | None:
