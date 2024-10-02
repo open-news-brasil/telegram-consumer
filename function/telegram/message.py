@@ -24,7 +24,7 @@ class TelegramMessage:
     @property
     def _emoji(self) -> str:
         if self.message.youtube:
-            return emojize(":video_camera:")
+            return emojize(":play_button:")
         if self.message.instagram:
             return emojize(":camera_with_flash:")
         return emojize(":page_facing_up:")
@@ -87,7 +87,7 @@ class TelegramMessage:
     def buttons(self) -> InlineKeyboardMarkup:
         keyboard = [
             self._button(
-                emojize(":globe_with_meridians: Acessar publicação"),
+                emojize(":page_facing_up: Acessar publicação"),
                 self.message.link,
             ),
             self._button(
