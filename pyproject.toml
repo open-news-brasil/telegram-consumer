@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "telegram-lambda"
+name = "open-news-brasil-telegram-lambda"
 version = "0.1.0"
 description = ""
 authors = ["João Paulo Carvalho <jjpaulo2@protonmail.com>"]
