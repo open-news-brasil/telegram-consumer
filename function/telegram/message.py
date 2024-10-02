@@ -52,8 +52,8 @@ class TelegramMessage:
     def _whatsapp_link_text(self) -> str:
         return join_lines(
             self._title.replace("**", "*"),
-            f"*Fonte:* {self._link}",
-            self._body.replace("**", "*").replace('__', '_'),
+            f"*Fonte:* {self.message.link}",
+            self._body.replace("**", "*"),
             f'{emojize(":mobile_phone:")} Entre agora no canal {WHATSAPP_LINK_FOR_CHANNEL} '
             'e receba notícias como esta em primeira mão no seu Telegram!',
         )
