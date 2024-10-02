@@ -18,7 +18,6 @@ utils.get_peer_type = get_peer_type_fixed
 
 class TelegramSender:
     message_options = {
-        "disable_web_page_preview": True,
         "parse_mode": ParseMode.MARKDOWN,
     }
 
@@ -49,6 +48,7 @@ class TelegramSender:
                     chat_id=message.chat_id,
                     text=message.content,
                     reply_markup=message.buttons,
+                    disable_web_page_preview=True,
                     **self.message_options,  # type: ignore
                 )
             except FloodWait as exc:
