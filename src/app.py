@@ -1,3 +1,5 @@
+import asyncio
+
 from aws_lambda_powertools.utilities.parser import event_parser
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools import Logger
@@ -9,6 +11,7 @@ from src.telegram.sender import TelegramSender
 
 
 logger = Logger(app='telegram-lambda')
+loop = asyncio.get_event_loop()
 
 
 @event_parser(model=Message)
@@ -17,8 +20,7 @@ def handler(event: Message, context: LambdaContext):
     sender = TelegramSender(TELEGRAM_BOT_TOKENS, logger)
 
     try:
-        sender.send(message)
-        ...
+        loop.run_until_complete(sender.send(message))
 
-    except Exception:
-        ...
+    except Exception as exc:
+        logger.error(str(exc), exc_info=True)

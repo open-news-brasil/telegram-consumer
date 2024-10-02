@@ -4,6 +4,9 @@ version = "0.1.0"
 description = ""
 authors = ["João Paulo Carvalho <jjpaulo2@protonmail.com>"]
 readme = "README.md"
+packages = [
+    { include = "*", from = "src" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -12,6 +15,8 @@ pyrogram = "^2.0.106"
 tgcrypto = "^1.2.5"
 emoji = "^2.13.2"
 
+[tool.poetry-plugin-lambda-build]
+package-artifact-path = "dist/lambda.zip"
 
 [build-system]
 requires = ["poetry-core"]
