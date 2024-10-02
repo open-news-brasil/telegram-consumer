@@ -18,8 +18,8 @@ utils.get_peer_type = get_peer_type_fixed
 
 class TelegramSender:
     message_options = {
-        'disable_web_page_preview': True,
-        'parse_mode': ParseMode.MARKDOWN
+        "disable_web_page_preview": True,
+        "parse_mode": ParseMode.MARKDOWN,
     }
 
     def client_options(self, token: str):
@@ -30,17 +30,17 @@ class TelegramSender:
             "in_memory": True,
             "bot_token": token,
         }
-    
+
     def __init__(self, tokens: list[str], logger: Logger):
         self.logger = logger
         self.tokens = tokens
         shuffle(self.tokens)
-        
+
     async def client(self, token: str) -> Client:
         client = Client(**self.client_options(token))
         await client.start()
         return client
-    
+
     async def _send_message(self, message: TelegramMessage):
         for index, token in enumerate(self.tokens):
             try:
@@ -49,7 +49,7 @@ class TelegramSender:
                     chat_id=message.chat_id,
                     text=message.content,
                     reply_markup=message.buttons,
-                    **self.message_options # type: ignore
+                    **self.message_options,  # type: ignore
                 )
             except FloodWait as exc:
                 self.logger.warning(str(exc))
@@ -64,10 +64,10 @@ class TelegramSender:
             try:
                 await client.send_photo(
                     chat_id=message.chat_id,
-                    photo=message.image, # type: ignore
+                    photo=message.image,  # type: ignore
                     caption=message.content,
                     reply_markup=message.buttons,
-                    **self.message_options # type: ignore
+                    **self.message_options,  # type: ignore
                 )
 
             except FloodWait as exc:
@@ -75,7 +75,7 @@ class TelegramSender:
                 if (index + 1) < len(self.tokens):
                     continue
                 raise exc
-            
+
             except BadRequest:
                 await self._send_message(message)
 
@@ -85,7 +85,7 @@ class TelegramSender:
                 client = await self.client(token)
                 await client.send_media_group(
                     chat_id=message.chat_id,
-                    media=message.album, # type: ignore
+                    media=message.album,  # type: ignore
                     disable_notification=True,
                 )
             except FloodWait as exc:

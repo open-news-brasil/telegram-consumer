@@ -10,5 +10,5 @@ TELEGRAM_BOT_TOKENS = [
     token for i in range(5) if (token := getenv(f"TELEGRAM_BOT_REPLICA_{i}_TOKEN"))
 ]
 
-WHATSAPP_LINK_TEMPLATE = 'https://api.whatsapp.com/send?text={text}'
-WHATSAPP_LINK_FOR_CHANNEL = 't.me/s/noticias_phb'
+WHATSAPP_LINK_TEMPLATE = "https://api.whatsapp.com/send?text={text}"
+WHATSAPP_LINK_FOR_CHANNEL = "t.me/s/noticias_phb"

@@ -16,8 +16,20 @@ pyrogram = "^2.0.106"
 tgcrypto = "^1.2.5"
 emoji = "^2.13.2"
 
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6.8"
+taskipy = "^1.13.0"
+mypy = "^1.11.2"
+bandit = "^1.7.10"
+
 [tool.poetry-plugin-lambda-build]
 package-artifact-path = "dist/lambda.zip"
+
+[tool.taskipy.tasks]
+tests = { cmd = "pytest", help = "Runs all unit tests" }
+lint = { cmd = "ruff format && ruff check --fix", help = "Format and lint the code" }
+security = { cmd = "bandit -c pyproject.toml -r fastrpa", help = "Check security issues on the code" }
+check = { cmd = "ruff format --check && ruff check && mypy .", help = "Check code issues" }
 
 [build-system]
 requires = ["poetry-core"]

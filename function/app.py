@@ -10,7 +10,7 @@ from function.telegram.message import TelegramMessage
 from function.telegram.sender import TelegramSender
 
 
-logger = Logger(app='telegram-lambda')
+logger = Logger(app="telegram-lambda")
 loop = asyncio.get_event_loop()
 
 
