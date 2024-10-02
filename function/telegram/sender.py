@@ -103,6 +103,9 @@ class TelegramSender:
             else:
                 await self._send_message(message)
 
+        except FloodWait as exc:
+            raise exc
+
         except Exception as exc:
             self.logger.critical(str(exc), exc_info=True)
             raise exc

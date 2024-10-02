@@ -1,0 +1,9 @@
+{
+    "destiny": "jjpaulo2",
+    "title": "A Guide to Modern Python String Formatting Tools",
+    "link": "https://realpython.com/python-formatted-output/",
+    "content": [
+        "When working with strings in Python, you may need to interpolate values into your string and format these values to create new strings dynamically. In modern Python, you have f-strings and the .format() method to approach the tasks of interpolating and formatting strings."
+    ],
+    "images": []
+}
