@@ -23,7 +23,7 @@ mypy = "^1.11.2"
 bandit = "^1.7.10"
 
 [tool.poetry-plugin-lambda-build]
-package-artifact-path = "dist/lambda.zip"
+package-artifact-path = "dist/function.zip"
 
 [tool.taskipy.tasks]
 tests = { cmd = "pytest", help = "Runs all unit tests" }
