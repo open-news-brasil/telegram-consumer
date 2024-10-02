@@ -53,7 +53,7 @@ class TelegramMessage:
         return join_lines(
             self._title.replace("**", "*"),
             f"*Fonte:* {self._link}",
-            self._body.replace("**", "*"),
+            self._body.replace("**", "*").replace('__', '_'),
             f'{emojize(":mobile_phone:")} Entre agora no canal {WHATSAPP_LINK_FOR_CHANNEL} '
             'e receba notícias como esta em primeira mão no seu Telegram!',
         )
