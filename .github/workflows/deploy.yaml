@@ -45,4 +45,4 @@ jobs:
         run: |
           aws lambda update-function-code \
             --function-name ${{ vars.LAMBDA_FUNCTION }} \
-            --zip-file fileb://dist/function.zip
+            --zip-file fileb://dist/function.zip > /dev/null
