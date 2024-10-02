@@ -77,7 +77,7 @@ class TelegramSender:
                 raise exc
 
             except BadRequest:
-                await self._send_message(message)
+                return await self._send_message(message)
 
     async def _send_album(self, message: TelegramMessage):
         for index, token in enumerate(self.tokens):
