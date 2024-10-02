@@ -10,7 +10,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 aws-lambda-powertools = {extras = ["parser"], version = "^3.0.0"}
 pyrogram = "^2.0.106"
 tgcrypto = "^1.2.5"
