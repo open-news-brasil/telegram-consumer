@@ -4,10 +4,10 @@ from aws_lambda_powertools.utilities.parser import event_parser
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools import Logger
 
-from src.schemas import Message
-from src.settings import TELEGRAM_BOT_TOKENS
-from src.telegram.message import TelegramMessage
-from src.telegram.sender import TelegramSender
+from function.schemas import Message
+from function.settings import TELEGRAM_BOT_TOKENS
+from function.telegram.message import TelegramMessage
+from function.telegram.sender import TelegramSender
 
 
 logger = Logger(app='telegram-lambda')

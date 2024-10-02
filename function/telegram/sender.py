@@ -6,9 +6,9 @@ from pyrogram.enums import ParseMode
 from pyrogram.errors import FloodWait, BadRequest
 from aws_lambda_powertools import Logger
 
-from src.settings import TELEGRAM_API_HASH, TELEGRAM_API_ID
-from src.utils import get_peer_type_fixed
-from src.telegram.message import TelegramMessage
+from function.settings import TELEGRAM_API_HASH, TELEGRAM_API_ID
+from function.utils import get_peer_type_fixed
+from function.telegram.message import TelegramMessage
 
 
 # Fixes PEER_ID_INVALID for channels

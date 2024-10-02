@@ -1,13 +1,13 @@
 from emoji import emojize
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 
-from src.settings import (
+from function.settings import (
     TELEGRAM_MAX_ALBUM_QUANTITY,
     TELEGRAM_MAX_CONTENT_SIZE,
     WHATSAPP_LINK_FOR_CHANNEL,
 )
-from src.app import Message
-from src.utils import get_domain, join_lines
+from function.app import Message
+from function.utils import get_domain, join_lines
 
 
 class TelegramMessage:
