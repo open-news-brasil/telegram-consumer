@@ -5,7 +5,8 @@ description = ""
 authors = ["João Paulo Carvalho <jjpaulo2@protonmail.com>"]
 readme = "README.md"
 packages = [
-    { include = "*", from = "src" },
+    { include = "*", from = "src", to = "src" },
+    { include = "*/**", from = "src", to = "src" },
 ]
 
 [tool.poetry.dependencies]
