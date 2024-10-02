@@ -86,15 +86,29 @@ class TelegramMessage:
     @property
     def buttons(self) -> InlineKeyboardMarkup:
         keyboard = [
-            self._button("Acessar publicação", self.message.link),
-            self._button("Compartilhar no Whatsapp", self._whatsapp_link),
+            self._button(
+                emojize(":globe_with_meridians: Acessar publicação"),
+                self.message.link,
+            ),
+            self._button(
+                emojize(":telephone_receiver: Compartilhar no Whatsapp"),
+                self._whatsapp_link,
+            ),
         ]
         if self.message.youtube:
             keyboard.insert(
-                0, self._button("Assistir no YouTube", self.message.youtube[0])
+                0,
+                self._button(
+                    emojize(":play_button: Assistir no YouTube"),
+                    self.message.youtube[0],
+                ),
             )
         if self.message.instagram:
             keyboard.insert(
-                0, self._button("Ver no Instagram", self.message.instagram[0])
+                0,
+                self._button(
+                    emojize(":camera_with_flash: Ver no Instagram"),
+                    self.message.instagram[0],
+                ),
             )
         return InlineKeyboardMarkup(keyboard)
