@@ -44,7 +44,7 @@ class TelegramSender:
         for index, token in enumerate(self.tokens):
             try:
                 client = await self.client(token)
-                await client.send_message(
+                return await client.send_message(
                     chat_id=message.chat_id,
                     text=message.content,
                     reply_markup=message.buttons,
@@ -62,7 +62,7 @@ class TelegramSender:
             client = await self.client(token)
 
             try:
-                await client.send_photo(
+                return await client.send_photo(
                     chat_id=message.chat_id,
                     photo=message.image,  # type: ignore
                     caption=message.content,
@@ -83,7 +83,7 @@ class TelegramSender:
         for index, token in enumerate(self.tokens):
             try:
                 client = await self.client(token)
-                await client.send_media_group(
+                return await client.send_media_group(
                     chat_id=message.chat_id,
                     media=message.album,  # type: ignore
                     disable_notification=True,
@@ -99,9 +99,9 @@ class TelegramSender:
             if message.album:
                 await self._send_album(message)
             if message.image:
-                await self._send_image(message)
+                return await self._send_image(message)
             else:
-                await self._send_message(message)
+                return await self._send_message(message)
 
         except FloodWait as exc:
             raise exc
