@@ -6,7 +6,7 @@ def get_domain(url: str) -> str:
 
 
 def join_lines(*lines_list: str) -> str:
-    return "\n\n".join(*lines_list)
+    return "\n\n".join(lines_list)
 
 
 # Fixes PEER_ID_INVALID for channels
