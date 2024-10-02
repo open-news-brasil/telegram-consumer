@@ -1,3 +1,5 @@
+from urllib.parse import quote_plus
+
 from emoji import emojize
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 
@@ -5,6 +7,7 @@ from function.settings import (
     TELEGRAM_MAX_ALBUM_QUANTITY,
     TELEGRAM_MAX_CONTENT_SIZE,
     WHATSAPP_LINK_FOR_CHANNEL,
+    WHATSAPP_LINK_TEMPLATE,
 )
 from function.app import Message
 from function.utils import get_domain, join_lines
@@ -46,7 +49,7 @@ class TelegramMessage:
         return text
 
     @property
-    def _whatsapp_link(self) -> str:
+    def _whatsapp_link_text(self) -> str:
         return join_lines(
             self._title.replace("**", "*"),
             f"*Fonte:* {self._link}",
@@ -54,6 +57,10 @@ class TelegramMessage:
             f'{emojize(":mobile_phone:")} Entre agora no canal {WHATSAPP_LINK_FOR_CHANNEL} '
             'e receba notícias como esta em primeira mão no seu Telegram!',
         )
+
+    @property
+    def _whatsapp_link(self) -> str:
+        return WHATSAPP_LINK_TEMPLATE.format(text=quote_plus(self._whatsapp_link_text))
 
     def _button(self, text: str, link: str) -> list[InlineKeyboardButton]:
         return [InlineKeyboardButton(text=text, url=link)]
