@@ -91,7 +91,7 @@ class TelegramMessage:
                 self.message.link,
             ),
             self._button(
-                emojize(":telephone_receiver: Compartilhar no Whatsapp"),
+                emojize(":speech_balloon: Compartilhar no Whatsapp"),
                 self._whatsapp_link,
             ),
         ]
