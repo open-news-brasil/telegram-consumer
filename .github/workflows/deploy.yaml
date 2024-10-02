@@ -12,7 +12,7 @@ concurrency:
 jobs:
   python:
     environment:
-      name: AWS Lambda
+      name: AWS
 
     runs-on: ubuntu-latest
     timeout-minutes: 20
