@@ -19,7 +19,7 @@ class TelegramMessage:
 
     @property
     def _album_images(self) -> list[str]:
-        return self.message.images[1 : TELEGRAM_MAX_ALBUM_QUANTITY + 1 : -1]
+        return self.message.images[1 : TELEGRAM_MAX_ALBUM_QUANTITY + 1][::-1]
 
     @property
     def _emoji(self) -> str:
