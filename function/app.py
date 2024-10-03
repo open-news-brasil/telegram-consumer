@@ -22,7 +22,7 @@ def handler(event: SQSEvent, context: LambdaContext):
         message = Message.model_validate_json(record.body)
         message_adapter = TelegramMessage(message)
 
-        logger.info("Sending message...", extra={"message": message.model_dump()})
+        logger.info("Sending message...", extra={"received": message.model_dump()})
 
         try:
             loop.run_until_complete(sender.send(message_adapter))
