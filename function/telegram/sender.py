@@ -1,5 +1,3 @@
-import asyncio
-
 from uuid import uuid4
 from random import shuffle
 
@@ -97,8 +95,6 @@ class TelegramSender:
                 raise exc
 
     async def send(self, message: TelegramMessage):
-        await asyncio.sleep(10)
-
         try:
             if message.album:
                 await self._send_album(message)
