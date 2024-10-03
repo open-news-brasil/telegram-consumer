@@ -11,8 +11,9 @@ from function.telegram.message import TelegramMessage
 from function.telegram.sender import TelegramSender
 
 
-logger = Logger(app="telegram-lambda")
 loop = asyncio.get_event_loop()
+logger = Logger(app="telegram-lambda")
+sender = TelegramSender(TELEGRAM_BOT_TOKENS, logger)
 
 
 @event_source(data_class=SQSEvent)
@@ -20,7 +21,8 @@ def handler(event: SQSEvent, context: LambdaContext):
     for record in event.records:
         message = Message.model_validate_json(record.body)
         message_adapter = TelegramMessage(message)
-        sender = TelegramSender(TELEGRAM_BOT_TOKENS, logger)
+
+        logger.info("Sending message...", extra={"message": message.model_dump()})
 
         try:
             loop.run_until_complete(sender.send(message_adapter))
