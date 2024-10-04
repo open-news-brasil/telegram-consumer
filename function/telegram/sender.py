@@ -4,7 +4,7 @@ from random import shuffle
 
 from pyrogram import Client, utils
 from pyrogram.enums import ParseMode
-from pyrogram.errors import FloodWait
+from pyrogram.errors import FloodWait, BadRequest
 from aws_lambda_powertools import Logger
 
 from function.settings import TELEGRAM_API_HASH, TELEGRAM_API_ID
@@ -67,6 +67,23 @@ class TelegramSender:
             reply_markup=message.buttons,
         )
 
+    async def _send_image(self, client: Client, message: TelegramMessage):
+        try:
+            await client.send_photo(
+                chat_id=message.chat_id,
+                photo=message.image,  # type: ignore
+                caption=message.content,
+                parse_mode=ParseMode.MARKDOWN,
+                reply_markup=message.buttons,
+            )
+
+        except FloodWait as exc:
+            raise exc
+
+        except BadRequest as exc:
+            self.logger.warning(str(exc))
+            await self._send_message(client, message)
+
     async def _send_album(self, client: Client, message: TelegramMessage) -> int:
         sent_messages = await client.send_media_group(
             chat_id=message.chat_id,
@@ -82,9 +99,13 @@ class TelegramSender:
             if message.album:
                 reply_to = await self._token_rotation(self._send_album, message=message)
 
-            await self._token_rotation(
-                self._send_message, message=message, reply_to=reply_to
-            )
+            if message.image:
+                await self._token_rotation(self._send_image, message=message)
+
+            else:
+                await self._token_rotation(
+                    self._send_message, message=message, reply_to=reply_to
+                )
 
         except FloodWait as exc:
             raise exc
