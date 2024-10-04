@@ -55,7 +55,9 @@ class TelegramMessage:
             return text[:TELEGRAM_MAX_CONTENT_SIZE] + " **[...]**"
 
         elif not text.strip():
-            if self.message.videos:
+            if self.message.external_videos:
+                return "Assista o vídeo clicando no botão abaixo."
+            elif self.message.videos:
                 return "Assista o vídeo no YouTube clicando no botão abaixo."
             elif self.message.instagram:
                 return "Veja a publicação no Instagram clicando no botão abaixo."
@@ -114,6 +116,14 @@ class TelegramMessage:
                 self._whatsapp_link,
             ),
         ]
+        if self.message.external_videos:
+            keyboard.insert(
+                0,
+                self._button(
+                    emojize(":play_button: Assistir vídeo"),
+                    self.message.external_videos[0],
+                ),
+            )
         if self.message.youtube:
             keyboard.insert(
                 0,

@@ -8,5 +8,6 @@ class Message(BaseModel):
     content: list[str] = []
     images: list[str] = []
     videos: list[str] = []
+    external_videos: list[str] = []
     youtube: list[str] = []
     instagram: list[str] = []
