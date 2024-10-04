@@ -87,6 +87,26 @@ class TelegramSender:
             self.logger.warning(str(exc))
             await self._send_message(client, message, reply_to)
 
+    async def _send_video(
+        self, client: Client, message: TelegramMessage, reply_to: int | None = None
+    ):
+        try:
+            await client.send_video(
+                chat_id=message.chat_id,
+                video=message.video,  # type: ignore
+                caption=message.content,
+                parse_mode=ParseMode.MARKDOWN,
+                reply_to_message_id=reply_to,  # type: ignore
+                reply_markup=message.buttons,
+            )
+
+        except FloodWait as exc:
+            raise exc
+
+        except BadRequest as exc:
+            self.logger.warning(str(exc))
+            await self._send_message(client, message, reply_to)
+
     async def _send_album(self, client: Client, message: TelegramMessage) -> int:
         sent_messages = await client.send_media_group(
             chat_id=message.chat_id,
@@ -102,7 +122,12 @@ class TelegramSender:
             if message.album:
                 reply_to = await self._token_rotation(self._send_album, message=message)
 
-            if message.image:
+            if message.video:
+                await self._token_rotation(
+                    self._send_video, message=message, reply_to=reply_to
+                )
+
+            elif message.image:
                 await self._token_rotation(
                     self._send_image, message=message, reply_to=reply_to
                 )

@@ -2,7 +2,11 @@ from urllib.parse import quote_plus
 from functools import cached_property
 
 from emoji import emojize
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
+from pyrogram.types import (
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+    InputMediaPhoto,
+)
 from pyrogram.enums import ParseMode
 
 from function.settings import (
@@ -20,8 +24,22 @@ class TelegramMessage:
         self.message = message
 
     @cached_property
+    def video(self) -> str | None:
+        if self.message.videos:
+            return self.message.videos[0]
+        return None
+
+    @cached_property
+    def image(self) -> str | None:
+        if self.message.images and not self.video:
+            return self.message.images[0]
+        return None
+
+    @cached_property
     def _album_images(self) -> list[str]:
-        return self.message.images[1 : TELEGRAM_MAX_ALBUM_QUANTITY + 1]
+        if self.image:
+            return self.message.images[1 : TELEGRAM_MAX_ALBUM_QUANTITY + 1]
+        return self.message.images[:TELEGRAM_MAX_ALBUM_QUANTITY]
 
     @cached_property
     def _album_caption(self) -> str:
@@ -84,12 +102,6 @@ class TelegramMessage:
     @cached_property
     def chat_id(self) -> str:
         return self.message.destiny
-
-    @cached_property
-    def image(self) -> str | None:
-        if self.message.images:
-            return self.message.images[0]
-        return None
 
     @cached_property
     def album(self) -> list[InputMediaPhoto]:
