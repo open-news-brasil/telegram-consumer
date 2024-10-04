@@ -85,7 +85,9 @@ class TelegramMessage:
 
     @cached_property
     def image(self) -> str | None:
-        return self.message.images[0]
+        if self.message.images:
+            return self.message.images[0]
+        return None
 
     @cached_property
     def album(self) -> list[InputMediaPhoto]:
