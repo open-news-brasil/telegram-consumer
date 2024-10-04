@@ -21,9 +21,7 @@ class TelegramMessage:
 
     @cached_property
     def _album_images(self) -> list[str]:
-        if len(self.message.images) > 1:
-            return self.message.images[1 : TELEGRAM_MAX_ALBUM_QUANTITY + 1]
-        return []
+        return self.message.images[1 : TELEGRAM_MAX_ALBUM_QUANTITY + 1]
 
     @cached_property
     def _album_caption(self) -> str:
@@ -87,9 +85,7 @@ class TelegramMessage:
 
     @cached_property
     def image(self) -> str | None:
-        if len(self.message.images) == 1:
-            return self.message.images[0]
-        return None
+        return self.message.images[0]
 
     @cached_property
     def album(self) -> list[InputMediaPhoto]:

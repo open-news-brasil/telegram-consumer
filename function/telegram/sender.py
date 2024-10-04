@@ -67,13 +67,16 @@ class TelegramSender:
             reply_markup=message.buttons,
         )
 
-    async def _send_image(self, client: Client, message: TelegramMessage):
+    async def _send_image(
+        self, client: Client, message: TelegramMessage, reply_to: int | None = None
+    ):
         try:
             await client.send_photo(
                 chat_id=message.chat_id,
                 photo=message.image,  # type: ignore
                 caption=message.content,
                 parse_mode=ParseMode.MARKDOWN,
+                reply_to_message_id=reply_to,  # type: ignore
                 reply_markup=message.buttons,
             )
 
@@ -82,7 +85,7 @@ class TelegramSender:
 
         except BadRequest as exc:
             self.logger.warning(str(exc))
-            await self._send_message(client, message)
+            await self._send_message(client, message, reply_to)
 
     async def _send_album(self, client: Client, message: TelegramMessage) -> int:
         sent_messages = await client.send_media_group(
@@ -100,7 +103,9 @@ class TelegramSender:
                 reply_to = await self._token_rotation(self._send_album, message=message)
 
             if message.image:
-                await self._token_rotation(self._send_image, message=message)
+                await self._token_rotation(
+                    self._send_image, message=message, reply_to=reply_to
+                )
 
             else:
                 await self._token_rotation(
