@@ -1,7 +1,9 @@
 from urllib.parse import quote_plus
+from functools import cached_property
 
 from emoji import emojize
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
+from pyrogram.enums import ParseMode
 
 from function.settings import (
     TELEGRAM_MAX_ALBUM_QUANTITY,
@@ -17,11 +19,15 @@ class TelegramMessage:
     def __init__(self, message: Message):
         self.message = message
 
-    @property
+    @cached_property
     def _album_images(self) -> list[str]:
-        return self.message.images[1 : TELEGRAM_MAX_ALBUM_QUANTITY + 1][::-1]
+        return self.message.images[1 : TELEGRAM_MAX_ALBUM_QUANTITY + 1]
 
-    @property
+    @cached_property
+    def _album_caption(self) -> str:
+        return emojize(f":framed_picture: **{self.message.title}**")
+
+    @cached_property
     def _emoji(self) -> str:
         if self.message.youtube:
             return emojize(":play_button:")
@@ -29,26 +35,34 @@ class TelegramMessage:
             return emojize(":camera_with_flash:")
         return emojize(":page_facing_up:")
 
-    @property
+    @cached_property
     def _domain(self) -> str:
         return get_domain(self.message.link)
 
-    @property
+    @cached_property
     def _link(self) -> str:
         return f"__[{self._domain}]({self.message.link})__"
 
-    @property
+    @cached_property
     def _title(self) -> str:
         return f"{self._emoji} **{self.message.title}**"
 
-    @property
+    @cached_property
     def _body(self) -> str:
         text = " ".join(self.message.content)
+
         if len(text) > TELEGRAM_MAX_CONTENT_SIZE:
             return text[:TELEGRAM_MAX_CONTENT_SIZE] + " **[...]**"
+
+        elif not text.strip():
+            if self.message.videos:
+                return "Assista o vídeo no YouTube clicando no botão abaixo."
+            elif self.message.instagram:
+                return "Veja a publicação no Instagram clicando no botão abaixo."
+
         return text
 
-    @property
+    @cached_property
     def _whatsapp_link_text(self) -> str:
         return join_lines(
             self._title.replace("**", "*"),
@@ -65,25 +79,24 @@ class TelegramMessage:
     def _button(self, text: str, link: str) -> list[InlineKeyboardButton]:
         return [InlineKeyboardButton(text=text, url=link)]
 
-    @property
+    @cached_property
     def chat_id(self) -> str:
         return self.message.destiny
 
-    @property
+    @cached_property
     def album(self) -> list[InputMediaPhoto]:
-        return [InputMediaPhoto(img) for img in self._album_images]
+        return [
+            InputMediaPhoto(
+                img, caption=self._album_caption, parse_mode=ParseMode.MARKDOWN
+            )
+            for img in self._album_images
+        ]
 
-    @property
-    def image(self) -> str | None:
-        if self.message.images:
-            return self.message.images[0]
-        return None
-
-    @property
+    @cached_property
     def content(self) -> str:
         return join_lines(self._link, self._title, self._body)
 
-    @property
+    @cached_property
     def buttons(self) -> InlineKeyboardMarkup:
         keyboard = [
             self._button(
