@@ -75,7 +75,7 @@ class TelegramMessage:
         elif not text.strip():
             if self.message.external_videos:
                 return "Assista o vídeo clicando no botão abaixo."
-            elif self.message.videos:
+            elif self.message.youtube:
                 return "Assista o vídeo no YouTube clicando no botão abaixo."
             elif self.message.instagram:
                 return "Veja a publicação no Instagram clicando no botão abaixo."
