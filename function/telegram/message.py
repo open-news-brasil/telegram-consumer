@@ -15,7 +15,7 @@ from function.settings import (
     WHATSAPP_LINK_FOR_CHANNEL,
     WHATSAPP_LINK_TEMPLATE,
 )
-from function.app import Message
+from function.schemas import Message
 from function.utils import get_domain, join_lines
 
 
